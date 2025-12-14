@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://d2svflf4c353a"]
+[gd_scene load_steps=24 format=3 uid="uid://d2svflf4c353a"]
 
 [ext_resource type="Script" uid="uid://cros6y4ci8q1w" path="res://main.gd" id="1_4c57u"]
 [ext_resource type="PackedScene" uid="uid://c258qhqu3k1lu" path="res://Modeller/ağız/human_mouth_detailed.glb" id="2_h2yge"]
@@ -10,6 +10,7 @@
 [ext_resource type="AudioStream" uid="uid://dy1gv2v0s6g4m" path="res://Sesler/nam nam.ogg" id="7_272bh"]
 [ext_resource type="AudioStream" uid="uid://y46q6gieiawc" path="res://Sesler/sert.ogg" id="8_kek77"]
 [ext_resource type="AudioStream" uid="uid://bv8r3fs3kxfxf" path="res://Sesler/hmm.ogg" id="9_4c57u"]
+[ext_resource type="Texture2D" uid="uid://bydgv0e8x1tha" path="res://Modeller/MOTW_312_Brick_Wall_Albedo_4k.png" id="12_dg77c"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_7dm0k"]
 radius = 0.1
@@ -34,6 +35,9 @@ ambient_light_color = Color(0.69135684, 0.6913568, 0.69135684, 1)
 ambient_light_energy = 1.32
 reflected_light_source = 2
 
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_efxa6"]
+dof_blur_near_distance = 17.98
+
 [sub_resource type="SphereShape3D" id="SphereShape3D_lquwl"]
 radius = 0.17990136
 
@@ -43,6 +47,14 @@ radius = 0.17990136
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_272bh"]
 radius = 0.48393485
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dg77c"]
+albedo_texture = ExtResource("12_dg77c")
+roughness = 0.0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_4c57u"]
+material = SubResource("StandardMaterial3D_dg77c")
+size = Vector2(2, 20)
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_4c57u")
@@ -70,6 +82,7 @@ mesh = SubResource("CylinderMesh_ig7tw")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_h2yge")
+camera_attributes = SubResource("CameraAttributesPractical_efxa6")
 
 [node name="Organlar" parent="." groups=["Organ"] instance=ExtResource("4_1bvp3")]
 transform = Transform3D(-1.2688329, 0, -1.10924894e-07, 0, 1.2688329, 0, 1.10924894e-07, 0, -1.2688329, 0.35591316, 1.3770758, -0.051958084)
@@ -189,3 +202,7 @@ theme_override_colors/font_outline_color = Color(0, 0.8509804, 1, 1)
 theme_override_constants/line_spacing = 3
 theme_override_constants/shadow_offset_x = 1
 theme_override_font_sizes/font_size = 32
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(51.063198, 0, 0, 0, -1.5218087e-06, 3.8539438, 0, -34.814926, -1.6846124e-07, 0, 0, 23.64692)
+mesh = SubResource("PlaneMesh_4c57u")

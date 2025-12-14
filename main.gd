@@ -83,7 +83,7 @@ var organ_aciklamalari = {
 		BesinTipi.KARBONHIDRAT: "PANKREAS\n\nAMİLAZ enzimi salgılar!\nNişastayı maltoz ve dekstrinlere parçalar.\n\nÇalışma Durumu: ✅ Karbonhidrat sindirimi için amilaz salgılıyor"
 	},
 	"Bos": {
-	BesinTipi.YAG: "Yağlar ağız ve mide yoluyla ince bağırsağa gelir.\nPankreas, yağların sindirilmesine yardımcı\nolacak enzimleri salgılar. Yağlar burada parçalanır ve emilime hazır hale gelir.\n\nVücut durumu: ✅ Yağ sindirimi gerçekleşiyor.",
+	BesinTipi.YAG: "Yağlar ağız ve mide yoluyla ince bağırsağa gelir.\nPankreas, yağların sindirilmesine yardımcı\nolacak enzimleri salgılar. Yağlar burada parçalanır\nve emilime hazır hale gelir.\n\nVücut durumu: ✅ Yağ sindirimi gerçekleşiyor.",
 	BesinTipi.PROTEIN: "Proteinler mideye ulaşır ve burada kısmen parçalanır.\nİnce bağırsakta pankreas, proteinleri\ndaha küçük parçalara ayıracak enzimleri salgılar.\nBu sayede proteinler emilime hazır hale gelir.\n\nVücut durumu: ✅ Protein sindirimi gerçekleşiyor.",
 	BesinTipi.KARBONHIDRAT: "Nişasta ve diğer karbonhidratlar ağızda çiğneme\nve tükürükteki enzimlerle kısmen parçalanır.\nİnce bağırsakta pankreas, karbonhidratları\nbasit şekere dönüştüren enzimleri salgılar.\n\nVücut durumu: ✅ Karbonhidrat sindirimi gerçekleşiyor."
 		}
