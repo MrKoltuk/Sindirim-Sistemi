@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://dy1gv2v0s6g4m"
+path="res://.godot/imported/nam nam.ogg-7ba60bf24cb07d320e715ed3f01e6587.oggvorbisstr"
+
+[deps]
+
+source_file="res://Sesler/nam nam.ogg"
+dest_files=["res://.godot/imported/nam nam.ogg-7ba60bf24cb07d320e715ed3f01e6587.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
