@@ -37,13 +37,13 @@ var kamera_pozisyonlari = {
 # Her organ için label pozisyonları (ekran koordinatları)
 var label_pozisyonlari = {
 	"Agiz": Vector2(50, 100),
-	"Mide": Vector2(100, 200),
-	"OnIki_Parmak": Vector2(150, 250),
-	"Ince_Bagirsak": Vector2(200, 300),
-	"Kalin_Bagirsak": Vector2(50, 350),
-	"Karaciger": Vector2(300, 150),
-	"Pankreas": Vector2(350, 200),
-	"Bos": Vector2(350, 200)
+	"Mide": Vector2(1150, 100),
+	"OnIki_Parmak": Vector2(50, 100),
+	"Ince_Bagirsak": Vector2(50, 100),
+	"Kalin_Bagirsak": Vector2(50, 100),
+	"Karaciger": Vector2(50, 100),
+	"Pankreas": Vector2(50, 100),
+	"Bos": Vector2(50, 100)
 }
 
 var organ_aciklamalari = {
@@ -83,10 +83,11 @@ var organ_aciklamalari = {
 		BesinTipi.KARBONHIDRAT: "PANKREAS\n\nAMİLAZ enzimi salgılar!\nNişastayı maltoz ve dekstrinlere parçalar.\n\nÇalışma Durumu: ✅ Karbonhidrat sindirimi için amilaz salgılıyor"
 	},
 	"Bos": {
-		BesinTipi.YAG: "PANKREAS\n\nLİPAZ enzimi salgılar!\nYağları yağ asitleri ve gliserole parçalar.\n\nÇalışma Durumu: ✅ Yağ sindirimi için lipaz salgılıyor",
-		BesinTipi.PROTEIN: "PANKREAS\n\nTRİPSİN enzimi salgılar!\nProteinleri küçük peptitlere parçalar.\n\nÇalışma Durumu: ✅ Protein sindirimi için tripsin salgılıyor",
-		BesinTipi.KARBONHIDRAT: "PANKREAS\n\nAMİLAZ enzimi salgılar!\nNişastayı maltoz ve dekstrinlere parçalar.\n\nÇalışma Durumu: ✅ Karbonhidrat sindirimi için amilaz salgılıyor"
-	}
+	BesinTipi.YAG: "Yağlar ağız ve mide yoluyla ince bağırsağa gelir.\nPankreas, yağların sindirilmesine yardımcı\nolacak enzimleri salgılar. Yağlar burada parçalanır ve emilime hazır hale gelir.\n\nVücut durumu: ✅ Yağ sindirimi gerçekleşiyor.",
+	BesinTipi.PROTEIN: "Proteinler mideye ulaşır ve burada kısmen parçalanır.\nİnce bağırsakta pankreas, proteinleri\ndaha küçük parçalara ayıracak enzimleri salgılar.\nBu sayede proteinler emilime hazır hale gelir.\n\nVücut durumu: ✅ Protein sindirimi gerçekleşiyor.",
+	BesinTipi.KARBONHIDRAT: "Nişasta ve diğer karbonhidratlar ağızda çiğneme\nve tükürükteki enzimlerle kısmen parçalanır.\nİnce bağırsakta pankreas, karbonhidratları\nbasit şekere dönüştüren enzimleri salgılar.\n\nVücut durumu: ✅ Karbonhidrat sindirimi gerçekleşiyor."
+		}
+
 }
 
 func _ready():

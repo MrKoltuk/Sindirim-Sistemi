@@ -141,7 +141,7 @@ transform = Transform3D(-0.012559934, 0, -0.012256726, 0, 0.017549338, 0, 0.0122
 transform = Transform3D(1, 0, -2.9802322e-08, 0, 1.1485908, 0, 2.9802322e-08, 0, 1, 0, 0, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Besinler/Yag/Area3D"]
-transform = Transform3D(21.788963, 1.7053026e-13, -1.1920929e-06, 0, -33.354782, 0, 9.536743e-07, -8.176213e-07, 4.2076254, 0.038043976, 15.887756, -0.017814636)
+transform = Transform3D(32.897476, 1.7053026e-13, -1.9073486e-06, 0, -33.354782, 0, 1.9073486e-06, -8.176213e-07, 6.3009825, 0.038043976, 15.887756, -0.017807007)
 shape = SubResource("SphereShape3D_5vw27")
 
 [node name="Karbonhidrat" parent="Besinler" groups=["Besin", "Besinn"] instance=ExtResource("6_272bh")]
@@ -183,3 +183,9 @@ offset_bottom = 23.0
 [node name="OrganBilgi" type="Label" parent="CanvasLayer"]
 offset_right = 40.0
 offset_bottom = 23.0
+theme_override_colors/font_color = Color(1, 1, 0.43137255, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0.8509804, 1, 1)
+theme_override_constants/line_spacing = 3
+theme_override_constants/shadow_offset_x = 1
+theme_override_font_sizes/font_size = 32
