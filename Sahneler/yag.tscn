@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://d5wlfebcgkoi"]
+
+[ext_resource type="PackedScene" uid="uid://ds4xp6s7km33f" path="res://Modeller/yimek/olive_oil.glb" id="1_hmofm"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ngt04"]
+
+[node name="Yag" type="Node3D" groups=["Besin", "Besinn"]]
+
+[node name="Area3D" type="Area3D" parent="." groups=["Besin"]]
+transform = Transform3D(1, 0, -2.9802322e-08, 0, 1.1485908, 0, 2.9802322e-08, 0, 1, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(0.38979745, 2.9946397e-15, -9.926337e-08, 0, -0.5857356, 0, 2.2599885e-08, -1.43580445e-08, 0.32791945, 0.038043927, 0.24075046, -0.017806983)
+shape = SubResource("SphereShape3D_ngt04")
+
+[node name="Sketchfab_Scene" parent="." instance=ExtResource("1_hmofm")]
+transform = Transform3D(-0.020097125, 0, -1.7569465e-09, 0, 0.020097125, 0, 1.7569465e-09, 0, -0.020097125, 0, 0, 0)

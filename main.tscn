@@ -1,12 +1,12 @@
-[gd_scene load_steps=24 format=3 uid="uid://d2svflf4c353a"]
+[gd_scene load_steps=22 format=3 uid="uid://d2svflf4c353a"]
 
 [ext_resource type="Script" uid="uid://cros6y4ci8q1w" path="res://main.gd" id="1_4c57u"]
 [ext_resource type="PackedScene" uid="uid://c258qhqu3k1lu" path="res://Modeller/ağız/human_mouth_detailed.glb" id="2_h2yge"]
 [ext_resource type="PackedScene" uid="uid://bwy0lougcda1y" path="res://Modeller/herşey/model.glb" id="4_1bvp3"]
-[ext_resource type="PackedScene" uid="uid://ds4xp6s7km33f" path="res://Modeller/yimek/olive_oil.glb" id="5_lquwl"]
-[ext_resource type="PackedScene" uid="uid://ddw3y5qc0m381" path="res://Modeller/yimek/bread.glb" id="6_272bh"]
+[ext_resource type="PackedScene" uid="uid://ua3te58ymci7" path="res://Sahneler/karbonhidrat.tscn" id="4_efxa6"]
+[ext_resource type="PackedScene" uid="uid://4pygo1uyp3n4" path="res://Sahneler/protein.tscn" id="5_dg77c"]
+[ext_resource type="PackedScene" uid="uid://d5wlfebcgkoi" path="res://Sahneler/yag.tscn" id="6_ycdy4"]
 [ext_resource type="AudioStream" uid="uid://o41ogru081pd" path="res://Sesler/iç.ogg" id="7_4c57u"]
-[ext_resource type="PackedScene" uid="uid://ddsksukuva703" path="res://Modeller/yimek/meat.glb" id="7_5vw27"]
 [ext_resource type="AudioStream" uid="uid://dy1gv2v0s6g4m" path="res://Sesler/nam nam.ogg" id="7_272bh"]
 [ext_resource type="AudioStream" uid="uid://y46q6gieiawc" path="res://Sesler/sert.ogg" id="8_kek77"]
 [ext_resource type="AudioStream" uid="uid://bv8r3fs3kxfxf" path="res://Sesler/hmm.ogg" id="9_4c57u"]
@@ -42,11 +42,6 @@ dof_blur_near_distance = 17.98
 radius = 0.17990136
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_4c57u"]
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_5vw27"]
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_272bh"]
-radius = 0.48393485
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dg77c"]
 albedo_texture = ExtResource("12_dg77c")
@@ -147,33 +142,14 @@ shape = SubResource("SphereShape3D_7dm0k")
 
 [node name="Besinler" type="Node3D" parent="."]
 
-[node name="Yag" parent="Besinler" groups=["Besin", "Besinn"] instance=ExtResource("5_lquwl")]
-transform = Transform3D(-0.012559934, 0, -0.012256726, 0, 0.017549338, 0, 0.012256726, 0, -0.012559934, -1.3733174, 2.6247246, -0.6505567)
+[node name="Karbonhidrat" parent="Besinler" groups=["Besin"] instance=ExtResource("4_efxa6")]
+transform = Transform3D(1, 0, 0, 0, 0.83762336, 0.5462482, 0, -0.5462482, 0.83762336, -1.4076002, 1.688098, 0)
 
-[node name="Area3D" type="Area3D" parent="Besinler/Yag" groups=["Besin"]]
-transform = Transform3D(1, 0, -2.9802322e-08, 0, 1.1485908, 0, 2.9802322e-08, 0, 1, 0, 0, 0)
+[node name="Protein" parent="Besinler" groups=["Besin", "Besinn"] instance=ExtResource("5_dg77c")]
+transform = Transform3D(0.6696233, 0.7427009, 0, -0.39157984, 0.3530506, -0.8497179, -0.63108623, 0.56899095, 0.5272376, -2.4067183, 2.657909, 0)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Besinler/Yag/Area3D"]
-transform = Transform3D(32.897476, 1.7053026e-13, -1.9073486e-06, 0, -33.354782, 0, 1.9073486e-06, -8.176213e-07, 6.3009825, 0.038043976, 15.887756, -0.017807007)
-shape = SubResource("SphereShape3D_5vw27")
-
-[node name="Karbonhidrat" parent="Besinler" groups=["Besin", "Besinn"] instance=ExtResource("6_272bh")]
-transform = Transform3D(0.23488232, 0, 0, 0, 0.51960135, 0.7902272, 0, -0.45604727, 0.90035194, -1.3604492, 2.1999173, -0.75485003)
-
-[node name="Area3D" type="Area3D" parent="Besinler/Karbonhidrat"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Besinler/Karbonhidrat/Area3D"]
-transform = Transform3D(3.3082423, 0, 0, 0, 0.60789156, 0, 0, 1.4901161e-08, 0.6558517, 0.03805399, 0.21952629, -0.017816544)
-shape = SubResource("SphereShape3D_272bh")
-
-[node name="Protein" parent="Besinler" groups=["Besin", "Besinn"] instance=ExtResource("7_5vw27")]
-transform = Transform3D(1, 0, 0, 0, -0.2785554, -0.96042025, 0, 0.96042025, -0.2785554, -2.3059065, 2.7147336, -0.83733296)
-
-[node name="Area3D" type="Area3D" parent="Besinler/Protein"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Besinler/Protein/Area3D"]
-transform = Transform3D(0.74941266, 0, 0, 0, 0.70322055, 0, 0, 0, 1.0104641, 0.03805399, 0.21952629, -0.01781702)
-shape = SubResource("SphereShape3D_272bh")
+[node name="Yag" parent="Besinler" instance=ExtResource("6_ycdy4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4700543, 2.554924, -0.36308265)
 
 [node name="YagSesi" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("7_4c57u")
@@ -206,3 +182,14 @@ theme_override_font_sizes/font_size = 32
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(51.063198, 0, 0, 0, -1.5218087e-06, 3.8539438, 0, -34.814926, -1.6846124e-07, 0, 0, 23.64692)
 mesh = SubResource("PlaneMesh_4c57u")
+
+[node name="RespawnPoints" type="Node3D" parent="."]
+
+[node name="YagPoint" type="Node3D" parent="RespawnPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5381111, 2.6620603, 0)
+
+[node name="ProteinPoint" type="Node3D" parent="RespawnPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.2926257, 2.1509464, 0)
+
+[node name="KarbonhidratPoint" type="Node3D" parent="RespawnPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.3880026, 1.7906169, 0)

@@ -6,9 +6,20 @@ enum BesinTipi { YOK, YAG, PROTEIN, KARBONHIDRAT }
 # Mevcut durum
 var current_state = BesinTipi.YOK
 var son_yenilen = "Henüz besin yenilmedi"
+var secili_organ: String = ""
+
+@export var yag_scene: PackedScene
+@export var protein_scene: PackedScene
+@export var karbonhidrat_scene: PackedScene
+var tutulan_besin: Node3D = null
+var dragging := false
+
+@onready var respawn_yag = $RespawnPoints/YagPoint
+@onready var respawn_protein = $RespawnPoints/ProteinPoint
+@onready var respawn_karbonhidrat = $RespawnPoints/KarbonhidratPoint
+
 
 # Sürükleme
-var tutulan_besin = null
 var offset = Vector3.ZERO
 
 # Referanslar
@@ -83,9 +94,9 @@ var organ_aciklamalari = {
 		BesinTipi.KARBONHIDRAT: "PANKREAS\n\nAMİLAZ enzimi salgılar!\nNişastayı maltoz ve dekstrinlere parçalar.\n\nÇalışma Durumu: ✅ Karbonhidrat sindirimi için amilaz salgılıyor"
 	},
 	"Bos": {
-	BesinTipi.YAG: "Yağlar ağız ve mide yoluyla ince bağırsağa gelir.\nPankreas, yağların sindirilmesine yardımcı\nolacak enzimleri salgılar. Yağlar burada parçalanır\nve emilime hazır hale gelir.\n\nVücut durumu: ✅ Yağ sindirimi gerçekleşiyor.",
-	BesinTipi.PROTEIN: "Proteinler mideye ulaşır ve burada kısmen parçalanır.\nİnce bağırsakta pankreas, proteinleri\ndaha küçük parçalara ayıracak enzimleri salgılar.\nBu sayede proteinler emilime hazır hale gelir.\n\nVücut durumu: ✅ Protein sindirimi gerçekleşiyor.",
-	BesinTipi.KARBONHIDRAT: "Nişasta ve diğer karbonhidratlar ağızda çiğneme\nve tükürükteki enzimlerle kısmen parçalanır.\nİnce bağırsakta pankreas, karbonhidratları\nbasit şekere dönüştüren enzimleri salgılar.\n\nVücut durumu: ✅ Karbonhidrat sindirimi gerçekleşiyor."
+	BesinTipi.YAG: "Yağlar ağız ve mideyi geçerek ince bağırsağa ulaşır.\nPankreas tarafından salgılanan lipaz enzimi\nince bağırsağa dökülür ve yağları parçalar.\nYağlar emilime hazır hale gelir.\n\nVücut durumu: ✅ Yağ sindirimi gerçekleşiyor.",
+	BesinTipi.PROTEIN: "Proteinler midede pepsin ile kısmen parçalanır.\nİnce bağırsakta pankreasın salgıladığı tripsin\nve peptidazlar proteinleri amino asitlere ayırır.\n\nVücut durumu: ✅ Protein sindirimi gerçekleşiyor.",
+	BesinTipi.KARBONHIDRAT: "Karbonhidratlar ağızda tükürük amilazı ile\nkısmen parçalanır.\nİnce bağırsakta pankreasın salgıladığı amilaz\nkarbonhidratları basit şekerlere dönüştürür.\n\nVücut durumu: ✅ Karbonhidrat sindirimi gerçekleşiyor.",
 		}
 
 }
@@ -172,62 +183,124 @@ func _besin_surukle(mouse_pos: Vector2):
 	tutulan_besin.global_position = Vector3(yeni_pozisyon.x, yeni_pozisyon.y, sabit_z)
 
 func _on_agiz_area_entered(area):
-	# Ağza bir area girdi
 	if area.get_parent() and area.get_parent() is Node3D:
 		var besin = area.get_parent()
 		
 		if besin.name == "Yag":
 			_besin_yenildi(BesinTipi.YAG, "YAĞ", yag_sesi)
-			besin.queue_free()
 		elif besin.name == "Protein":
 			_besin_yenildi(BesinTipi.PROTEIN, "PROTEİN", protein_sesi)
-			besin.queue_free()
 		elif besin.name == "Karbonhidrat":
 			_besin_yenildi(BesinTipi.KARBONHIDRAT, "KARBONHİDRAT", karbonhidrat_sesi)
-			besin.queue_free()
+
 
 func _besin_yenildi(tip: BesinTipi, isim: String, ses: AudioStreamPlayer):
 	current_state = tip
 	son_yenilen = isim
 	_update_ui()
-	
-	# İlgili sesi çal
+
 	if ses and ses.stream:
 		ses.play()
-	
-	print("🍽️ YENİLDİ: " + isim)
+
+	# sadece tutulan besini pasif yap
+	if tutulan_besin:
+		_besini_pasif_yap(tutulan_besin)
+
 	tutulan_besin = null
 
+	# sadece yenen besini geri getir
+	_respawn_besin(tip)
+
+	print("🍽️ YENİLDİ: " + isim)
+	# 🔥 STATE DEĞİŞTİ → AÇIKLAMAYI GÜNCELLE
+	_organ_aciklamasini_guncelle()
+
+
+
+
 func _organa_git(organ_adi: String):
-	# Organ sesini çal
+	secili_organ = organ_adi   # 🔴 EN KRİTİK SATIR
+	
+	# Organ sesi
 	if organ_sesi and organ_sesi.stream:
 		organ_sesi.play()
 	
-	# Kamerayı organa yaklaştır
+	# Kamera
 	if kamera_pozisyonlari.has(organ_adi):
 		var tween = create_tween()
 		tween.set_ease(Tween.EASE_IN_OUT)
 		tween.set_trans(Tween.TRANS_CUBIC)
 		tween.tween_property(camera, "position", kamera_pozisyonlari[organ_adi], 0.8)
 	
-	# Label pozisyonunu ayarla
-	if label_pozisyonlari.has(organ_adi) and organ_bilgi_label:
+	# Label pozisyonu
+	if label_pozisyonlari.has(organ_adi):
 		var tween_label = create_tween()
 		tween_label.set_ease(Tween.EASE_OUT)
 		tween_label.set_trans(Tween.TRANS_CUBIC)
-		tween_label.tween_property(organ_bilgi_label, "position", label_pozisyonlari[organ_adi], 0.5)
+		tween_label.tween_property(
+			organ_bilgi_label,
+			"position",
+			label_pozisyonlari[organ_adi],
+			0.5
+		)
 	
-	# Organ bilgisini göster
-	if organ_aciklamalari.has(organ_adi) and current_state != BesinTipi.YOK:
-		var aciklama = organ_aciklamalari[organ_adi].get(current_state, "")
-		if organ_bilgi_label and aciklama != "":
-			organ_bilgi_label.text = aciklama
-			organ_bilgi_label.visible = true
-	elif current_state == BesinTipi.YOK:
-		if organ_bilgi_label:
-			organ_bilgi_label.text = "Önce bir besin yemelisin!"
-			organ_bilgi_label.visible = true
+	# 🔥 ASIL İŞ BURADA
+	_organ_aciklamasini_guncelle()
+
 
 func _update_ui():
 	if ui_label:
 		ui_label.text = "EN SON YENİLEN: " + son_yenilen
+
+func _besini_pasif_yap(besin: Node3D):
+	if not besin:
+		return
+	
+	besin.visible = false
+	
+	var area := besin.get_node_or_null("Area3D")
+	if area:
+		area.set_deferred("monitoring", false)
+		area.set_deferred("monitorable", false)
+
+
+func _respawn_besin(tip: BesinTipi):
+	var besin: Node3D
+	var spawn: Node3D
+
+	match tip:
+		BesinTipi.YAG:
+			besin = $Besinler/Yag
+			spawn = respawn_yag
+		BesinTipi.PROTEIN:
+			besin = $Besinler/Protein
+			spawn = respawn_protein
+		BesinTipi.KARBONHIDRAT:
+			besin = $Besinler/Karbonhidrat
+			spawn = respawn_karbonhidrat
+
+	if not besin or not spawn:
+		return
+	
+	besin.global_position = spawn.global_position
+	besin.visible = true
+	
+	var area := besin.get_node_or_null("Area3D")
+	if area:
+		area.set_deferred("monitoring", true)
+		area.set_deferred("monitorable", true)
+
+func _organ_aciklamasini_guncelle():
+	if secili_organ == "":
+		return
+	
+	if current_state == BesinTipi.YOK:
+		organ_bilgi_label.text = "Önce bir besin yemelisin!"
+		organ_bilgi_label.visible = true
+		return
+	
+	if organ_aciklamalari.has(secili_organ):
+		var aciklama = organ_aciklamalari[secili_organ].get(current_state, "")
+		if aciklama != "":
+			organ_bilgi_label.text = aciklama
+			organ_bilgi_label.visible = true

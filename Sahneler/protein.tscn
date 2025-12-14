@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://4pygo1uyp3n4"]
+
+[ext_resource type="PackedScene" uid="uid://ddsksukuva703" path="res://Modeller/yimek/meat.glb" id="1_tglt5"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_683ry"]
+radius = 0.48393485
+
+[node name="Protein" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 0.46516657, -0.88522315, 0, 0.88522315, 0.46516657, 0, 0, 0)
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(0.72141445, 0, 0.23594633, 0, 0.54428124, 0, -0.20292988, 0, 0.8387877, 0.08330518, 0.02276203, -0.01781702)
+shape = SubResource("SphereShape3D_683ry")
+
+[node name="Sketchfab_Scene" parent="." instance=ExtResource("1_tglt5")]

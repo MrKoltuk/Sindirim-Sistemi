@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://ua3te58ymci7"]
+
+[ext_resource type="PackedScene" uid="uid://ddw3y5qc0m381" path="res://Modeller/yimek/bread.glb" id="1_f6fi8"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_1q7qp"]
+radius = 0.48393485
+
+[node name="Karbonhidrat" type="Node3D" groups=["Besinn"]]
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(0.9973565, 0, 0, 0, 0.60789156, 0, 0, 1.4901161e-08, 0.69994676, 0.01950407, 0.21952629, 0.030022979)
+shape = SubResource("SphereShape3D_1q7qp")
+
+[node name="Sketchfab_Scene" parent="." instance=ExtResource("1_f6fi8")]
+transform = Transform3D(0.31348586, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
