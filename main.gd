@@ -17,7 +17,7 @@ var dragging := false
 @onready var respawn_yag = $RespawnPoints/YagPoint
 @onready var respawn_protein = $RespawnPoints/ProteinPoint
 @onready var respawn_karbonhidrat = $RespawnPoints/KarbonhidratPoint
-
+@onready var respawn_su = $RespawnPoints/SuPoint
 
 # Sürükleme
 var offset = Vector3.ZERO
@@ -41,7 +41,10 @@ var kamera_pozisyonlari = {
 	"Kalin_Bagirsak": Vector3(0.821, 1.535, -1.085),
 	"Karaciger": Vector3(0.763, 2.142, -0.705),
 	"Pankreas": Vector3(0.763, 1.688, -0.705),
-	"Bos": Vector3(-0.018, 2.095, -2.922)
+	"Bos": Vector3(-0.018, 2.095, -2.922),
+	"Yutak": Vector3(-0.329, 2.576, -0.47),
+	"YemekBorusu": Vector3(-0.155, 2.426, -0.244),
+	"Safra": Vector3(0.681, 1.99, -0.474),
 }
 
 
@@ -54,50 +57,79 @@ var label_pozisyonlari = {
 	"Kalin_Bagirsak": Vector2(50, 100),
 	"Karaciger": Vector2(50, 100),
 	"Pankreas": Vector2(50, 100),
-	"Bos": Vector2(50, 100)
+	"Bos": Vector2(50, 100),
+	"Yutak": Vector2(900, 100),
+	"YemekBorusu": Vector2(930, 100),
+	"Safra": Vector2(50, 650),
 }
 
 var organ_aciklamalari = {
 	"Agiz": {
-		BesinTipi.YAG: "AĞIZ\n\nYağlar ağızda SİNDİRİLMEZ.\nSadece çiğneme ile mekanik parçalanma olur.\n\nÇalışma Durumu: ❌ Yağ sindirimi yok",
-		BesinTipi.PROTEIN: "AĞIZ\n\nProteinler ağızda SİNDİRİLMEZ.\nSadece çiğneme ile mekanik parçalanma olur.\n\nÇalışma Durumu: ❌ Protein sindirimi yok",
+		BesinTipi.YOK: "Sindirimin başladığı yerdir\nBesinlerin hepsi burada mekanik olarak parçalanır\nTükürük bezlerinden tükürük salgılayarak sindirime\nyardımcı olur.",
+		BesinTipi.YAG: "AĞIZ\n\nYağlar ağızda kimyasal olarak SİNDİRİLMEZ.\nSadece çiğneme ile MEKANİK parçalanma olur.\n\nÇalışma Durumu: ❌ Kimyasal Yağ sindirimi yok",
+		BesinTipi.PROTEIN: "AĞIZ\n\nProteinler ağızda kimyasal olarak SİNDİRİLMEZ.\nSadece çiğneme ile mekanik parçalanma olur.\n\nÇalışma Durumu: ❌ Kimyasal Protein sindirimi yok",
 		BesinTipi.KARBONHIDRAT: "AĞIZ\n\nKarbonhidratlar ağızda SİNDİRİLİR!\nTükürükteki AMİLAZ enzimi nişastayı parçalar.\n\nÇalışma Durumu: ✅ Aktif olarak sindirim yapıyor"
 	},
 	"Mide": {
+		BesinTipi.YOK: "Geçici bir depo görevi görür.\nMİDE ÖZSUYU denilen sindirim sıvısını üretir.\nHem mekanik hem de kimyasal sindirim yapabilir.",
 		BesinTipi.YAG: "MİDE\n\nYağlar midede kısmen sindirilebilir.\nMide lipazı az miktarda yağ sindirimi yapar.\n\nÇalışma Durumu: 🟡 Sınırlı sindirim",
 		BesinTipi.PROTEIN: "MİDE\n\nProteinler midede SİNDİRİLİR!\nPEPSİN enzimi ve HCl asit proteinleri parçalar.\n\nÇalışma Durumu: ✅ Aktif olarak sindirim yapıyor",
 		BesinTipi.KARBONHIDRAT: "MİDE\n\nKarbonhidratlar midede çok az sindirilir.\nAsit ortam amilaz aktivitesini durdurur.\n\nÇalışma Durumu: ❌ Sindirim durmuş"
 	},
 	"OnIki_Parmak": {
-		BesinTipi.YAG: "ON İKİ PARMAK BAĞIRSAĞI\n\nYağ sindirimi BAŞLAR!\nSafra ve pankreas enzimi buraya salgılanır.\n\nÇalışma Durumu: ✅ Yağ sindirimi başlıyor",
+		BesinTipi.YOK: "",
+		BesinTipi.YAG: "ON İKİ PARMAK BAĞIRSAĞI\n\nYağ sindirimi YOĞUN olarak devam eder!\nSafra ve pankreas lipaz enzimi buraya salgılanır.\n\nÇalışma Durumu: ✅ Yağ sindirimi devam ediyor",
 		BesinTipi.PROTEIN: "ON İKİ PARMAK BAĞIRSAĞI\n\nProtein sindirimi devam eder!\nPankreas tripsin enzimi salgılar.\n\nÇalışma Durumu: ✅ Protein sindirimi devam ediyor",
 		BesinTipi.KARBONHIDRAT: "ON İKİ PARMAK BAĞIRSAĞI\n\nKarbonhidrat sindirimi devam eder!\nPankreas amilaz enzimi salgılar.\n\nÇalışma Durumu: ✅ Karbonhidrat sindirimi devam ediyor"
 	},
 	"Ince_Bagirsak": {
+		BesinTipi.YOK: "Sindirim tamamlandığı organdır.\nBesinler ve diğer moleküller burada kana karışır.",
 		BesinTipi.YAG: "İNCE BAĞIRSAK\n\nYağlar ince bağırsakta TAM SİNDİRİLİR!\nSafra yağları emülsifiye eder, LIPAZ parçalar.\n\nÇalışma Durumu: ✅ Aktif olarak sindirim yapıyor",
 		BesinTipi.PROTEIN: "İNCE BAĞIRSAK\n\nProteinler ince bağırsakta TAM SİNDİRİLİR!\nTRIPSİN ve PEPTİDAZ enzimleri amino asitlere ayırır.\n\nÇalışma Durumu: ✅ Aktif olarak sindirim yapıyor",
 		BesinTipi.KARBONHIDRAT: "İNCE BAĞIRSAK\n\nKarbonhidratlar ince bağırsakta TAM SİNDİRİLİR!\nPANKREAS AMİLAZI basit şekerlere ayırır.\n\nÇalışma Durumu: ✅ Aktif olarak sindirim yapıyor"
 	},
 	"Kalin_Bagirsak": {
+		BesinTipi.YOK: "Kalın bağırsak, enzim üretmez ve sindirim YAPMAZ.\nSindirilen besinlerin artıklarını\nanüs yoluyla dışarı atar.",
 		BesinTipi.YAG: "KALIN BAĞIRSAK\n\nSindirim tamamlanmış, emilim aşaması.\nSu emilimi ve dışkı oluşumu gerçekleşir.\n\nÇalışma Durumu: 🟡 Sindirim yok, emilim var",
 		BesinTipi.PROTEIN: "KALIN BAĞIRSAK\n\nSindirim tamamlanmış, emilim aşaması.\nSu emilimi ve dışkı oluşumu gerçekleşir.\n\nÇalışma Durumu: 🟡 Sindirim yok, emilim var",
 		BesinTipi.KARBONHIDRAT: "KALIN BAĞIRSAK\n\nSindirim tamamlanmış, emilim aşaması.\nSu emilimi ve dışkı oluşumu gerçekleşir.\n\nÇalışma Durumu: 🟡 Sindirim yok, emilim var"
 	},
 	"Karaciger": {
+		BesinTipi.YOK: "Kimyasal sindirim YAPMAZ!\nKaraciğerin ürettiği safra sıvısı, safra kanalcıkları ile\nsafra kesesine boşaltılır ve burada depolanır.",
 		BesinTipi.YAG: "KARACİĞER\n\nSAFRA üretir!\nSafra yağları küçük damlacıklara böler (emülsifikasyon).\n\nÇalışma Durumu: ✅ Yağ sindirimi için safra salgılıyor",
 		BesinTipi.PROTEIN: "KARACİĞER\n\nProtein sindirimi için doğrudan enzim salgılamaz.\nAma sindirilmiş proteinleri işler ve kullanır.\n\nÇalışma Durumu: 🟡 Dolaylı rol",
 		BesinTipi.KARBONHIDRAT: "KARACİĞER\n\nKarbonhidrat sindirimi için doğrudan enzim salgılamaz.\nGlükoz depolanması ve kullanımı yapar.\n\nÇalışma Durumu: 🟡 Dolaylı rol"
 	},
 	"Pankreas": {
+		BesinTipi.YOK: "Pankreas özsuyunu üretir.\nAmilaz, Lipaz, Kimotripsinojen, Tripsinojen\nve Nükleik asitlerin sindiriminde\nyer alan nükleaz enzimlerini barındırır",
 		BesinTipi.YAG: "PANKREAS\n\nLİPAZ enzimi salgılar!\nYağları yağ asitleri ve gliserole parçalar.\n\nÇalışma Durumu: ✅ Yağ sindirimi için lipaz salgılıyor",
 		BesinTipi.PROTEIN: "PANKREAS\n\nTRİPSİN enzimi salgılar!\nProteinleri küçük peptitlere parçalar.\n\nÇalışma Durumu: ✅ Protein sindirimi için tripsin salgılıyor",
 		BesinTipi.KARBONHIDRAT: "PANKREAS\n\nAMİLAZ enzimi salgılar!\nNişastayı maltoz ve dekstrinlere parçalar.\n\nÇalışma Durumu: ✅ Karbonhidrat sindirimi için amilaz salgılıyor"
 	},
 	"Bos": {
-	BesinTipi.YAG: "Yağlar ağız ve mideyi geçerek ince bağırsağa ulaşır.\nPankreas tarafından salgılanan lipaz enzimi\nince bağırsağa dökülür ve yağları parçalar.\nYağlar emilime hazır hale gelir.\n\nVücut durumu: ✅ Yağ sindirimi gerçekleşiyor.",
-	BesinTipi.PROTEIN: "Proteinler midede pepsin ile kısmen parçalanır.\nİnce bağırsakta pankreasın salgıladığı tripsin\nve peptidazlar proteinleri amino asitlere ayırır.\n\nVücut durumu: ✅ Protein sindirimi gerçekleşiyor.",
-	BesinTipi.KARBONHIDRAT: "Karbonhidratlar ağızda tükürük amilazı ile\nkısmen parçalanır.\nİnce bağırsakta pankreasın salgıladığı amilaz\nkarbonhidratları basit şekerlere dönüştürür.\n\nVücut durumu: ✅ Karbonhidrat sindirimi gerçekleşiyor.",
-		}
+		BesinTipi.YOK: "Sindirim Sistemi Simülasyonu'na Hoşgeldiniz :D",
+		BesinTipi.YAG: "Yağlar ağız ve mideyi geçerek ince bağırsağa ulaşır.\nPankreas tarafından salgılanan lipaz enzimi\nince bağırsağa dökülür ve yağları parçalar.\nYağlar emilime hazır hale gelir.\n\nVücut durumu: ✅ Yağ sindirimi gerçekleşiyor.",
+		BesinTipi.PROTEIN: "Proteinler midede pepsin ile kısmen parçalanır.\nİnce bağırsakta pankreasın salgıladığı tripsin\nve peptidazlar proteinleri amino asitlere ayırır.\n\nVücut durumu: ✅ Protein sindirimi gerçekleşiyor.",
+		BesinTipi.KARBONHIDRAT: "Karbonhidratlar ağızda tükürük amilazı ile\nkısmen parçalanır.\nİnce bağırsakta pankreasın salgıladığı amilaz\nkarbonhidratları basit şekerlere dönüştürür.\n\nVücut durumu: ✅ Karbonhidrat sindirimi gerçekleşiyor.",
+		},
+	"Yutak": {
+		BesinTipi.YOK: "YUTAK\n\nBesini yutarken gırtlak kapağı soluk borusunu\nkapatır ve bu sayede boğulmamızı ENGELLER\n\nSindirim sistemindeki önemli bir parçadır.",
+		BesinTipi.YAG: "YUTAK\n\nBesini yutarken gırtlak kapağı soluk borusunu\nkapatır ve bu sayede boğulmamızı ENGELLER\n\nSindirim sistemindeki önemli bir parçadır.",
+		BesinTipi.PROTEIN: "YUTAK\n\nBesini yutarken gırtlak kapağı soluk borusunu\nkapatır ve bu sayede boğulmamızı ENGELLER\n\nnSindirim sistemindeki önemli bir parçadır.",
+		BesinTipi.KARBONHIDRAT: "YUTAK\n\nBesini yutarken gırtlak kapağı soluk borusunu\nkapatır ve bu sayede boğulmamızı ENGELLER\n\nnSindirim sistemindeki önemli bir parçadır."
+	},
+	"YemekBorusu": {
+		BesinTipi.YOK: "Yemek borusu, besinleri Peristaltik hareketlerle\nmideye iletmekle görevlidir\nSindirim YAPMAZ!",
+		BesinTipi.YAG: "YEMEK BORUSU\n\nPerostatik hareketler yaparak besinleri mideye indirir\nMukuslu yapısı sayesinde KAYGANDIR\n\nÇalışma Durumu: ✅ Geçit görevinde!",
+		BesinTipi.PROTEIN: "YEMEK BORUSU\n\nPerostatik hareketler yaparak besinleri mideye indirir\nMukuslu yapısı sayesinde KAYGANDIR\n\nÇalışma Durumu: ✅ Geçit görevinde!",
+		BesinTipi.KARBONHIDRAT: "YEMEK BORUSU\n\nPerostatik hareketler yaparak besinleri mideye indirir\nMukuslu yapısı sayesinde KAYGANDIR\n\nÇalışma Durumu: ✅ Geçit görevinde!"
+	},
+	"Safra": {
+		BesinTipi.YOK: "Sindirime yardımcı organdır.\nMideden gelen Kimus'u nötralize eder.\nAntiseptik özelliği ile bağırsaktaki atıkların\nkokuşmasını ve bakterilerin oluşmasını engeller.",
+		BesinTipi.YAG: "SAFRA KESESİ\n\nSafra salgısını virsük kanalına verir.\nSafra salgısı ile beraber yağların\nMekanik sinirimini sağlar.\n\nÇalışma Durumu: ✅ Mekanik sindirim yapmakta!",
+		BesinTipi.PROTEIN: "SAFRA KESESİ\n\nProtein sindirimi için enzim SALGILAMAZ.\nSadece yağların sindirimi için safra salgısı depolar.\n\nÇalışma Durumu: ⚪ Protein sindiriminde rol almaz",
+		BesinTipi.KARBONHIDRAT: "SAFRA KESESİ\n\nKarbonhidrat sindirimi için enzim SALGILAMAZ.\nSadece yağların sindirimi için safra salgısı depolar.\n\nÇalışma Durumu: ⚪ Karbonhidrat sindiriminde rol almaz"
+	},
 
 }
 
@@ -149,7 +181,7 @@ func _besin_veya_organ_tikla(mouse_pos: Vector2):
 			
 			# BESİN Mİ?
 			if parent and parent is Node3D:
-				if parent.name == "Yag" or parent.name == "Protein" or parent.name == "Karbonhidrat":
+				if parent.name == "Yag" or parent.name == "Protein" or parent.name == "Karbonhidrat" or parent.name == "Su":
 					tutulan_besin = parent
 					offset = parent.global_position - result.position
 					print("🖐️ TUTULDU: " + parent.name)
@@ -174,9 +206,14 @@ func _besin_surukle(mouse_pos: Vector2):
 	var from = camera.project_ray_origin(mouse_pos)
 	var normal = camera.project_ray_normal(mouse_pos)
 	
-	# Kameradan belli bir mesafede tut (5 birim)
-	var distance = 5.0
-	var yeni_pozisyon = from + normal * distance
+	# Besinin şu anki Z eksenindeki uzaklığını kameradan hesapla
+	var besin_z_distance = abs(camera.global_position.z - tutulan_besin.global_position.z)
+	
+	# Mouse'un o uzaklıktaki 3D pozisyonunu bul
+	var yeni_pozisyon = from + normal * besin_z_distance
+	
+	# Offset'i uygula (tıkladığın noktayı tut)
+	yeni_pozisyon += offset
 	
 	# Z EKSENİNİ SABİTLE - sadece X ve Y hareket edebilir
 	var sabit_z = tutulan_besin.global_position.z
@@ -192,6 +229,8 @@ func _on_agiz_area_entered(area):
 			_besin_yenildi(BesinTipi.PROTEIN, "PROTEİN", protein_sesi)
 		elif besin.name == "Karbonhidrat":
 			_besin_yenildi(BesinTipi.KARBONHIDRAT, "KARBONHİDRAT", karbonhidrat_sesi)
+		elif besin.name == "Su":
+			_besin_yenildi(BesinTipi.YOK, "Su", yag_sesi)
 
 
 func _besin_yenildi(tip: BesinTipi, isim: String, ses: AudioStreamPlayer):
@@ -278,6 +317,9 @@ func _respawn_besin(tip: BesinTipi):
 		BesinTipi.KARBONHIDRAT:
 			besin = $Besinler/Karbonhidrat
 			spawn = respawn_karbonhidrat
+		BesinTipi.YOK:
+			besin = $Besinler/Su
+			spawn = respawn_su
 
 	if not besin or not spawn:
 		return
@@ -294,10 +336,10 @@ func _organ_aciklamasini_guncelle():
 	if secili_organ == "":
 		return
 	
-	if current_state == BesinTipi.YOK:
-		organ_bilgi_label.text = "Önce bir besin yemelisin!"
-		organ_bilgi_label.visible = true
-		return
+	#if current_state == BesinTipi.YOK:
+		#organ_bilgi_label.text = "Önce bir besin yemelisin!"
+		#organ_bilgi_label.visible = true
+		#return
 	
 	if organ_aciklamalari.has(secili_organ):
 		var aciklama = organ_aciklamalari[secili_organ].get(current_state, "")

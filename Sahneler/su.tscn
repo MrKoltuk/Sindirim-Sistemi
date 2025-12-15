@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://dwfhu5pawdwox"]
+
+[ext_resource type="PackedScene" uid="uid://b5awldtmvoc8c" path="res://Modeller/water_bottle.glb" id="1_cfo01"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_xdhnb"]
+
+[node name="Su" type="Node3D"]
+
+[node name="Area3D" type="Area3D" parent="." groups=["Besin"]]
+transform = Transform3D(1, 0, -2.9802322e-08, 0, 1.1485908, 0, 2.9802322e-08, 0, 1, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(0.38979742, 2.9946395e-15, -9.926336e-08, 0, -0.5857356, 0, 2.2599881e-08, -1.4358044e-08, 0.32791942, 0.038043924, 0.0070374883, -0.01780698)
+shape = SubResource("SphereShape3D_xdhnb")
+
+[node name="Sketchfab_Scene" parent="." instance=ExtResource("1_cfo01")]
+transform = Transform3D(0.39532292, 0, 0, 0, 0.39532292, 0, 0, 0, 0.39532292, 0, -0.27847403, 0)

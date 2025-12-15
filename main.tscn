@@ -1,7 +1,8 @@
-[gd_scene load_steps=22 format=3 uid="uid://d2svflf4c353a"]
+[gd_scene load_steps=25 format=3 uid="uid://d2svflf4c353a"]
 
 [ext_resource type="Script" uid="uid://cros6y4ci8q1w" path="res://main.gd" id="1_4c57u"]
 [ext_resource type="PackedScene" uid="uid://c258qhqu3k1lu" path="res://Modeller/ağız/human_mouth_detailed.glb" id="2_h2yge"]
+[ext_resource type="Texture2D" uid="uid://dvug1ytfprn1y" path="res://Modeller/yimek/meat_0.png" id="3_dg77c"]
 [ext_resource type="PackedScene" uid="uid://bwy0lougcda1y" path="res://Modeller/herşey/model.glb" id="4_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://ua3te58ymci7" path="res://Sahneler/karbonhidrat.tscn" id="4_efxa6"]
 [ext_resource type="PackedScene" uid="uid://4pygo1uyp3n4" path="res://Sahneler/protein.tscn" id="5_dg77c"]
@@ -9,13 +10,18 @@
 [ext_resource type="AudioStream" uid="uid://o41ogru081pd" path="res://Sesler/iç.ogg" id="7_4c57u"]
 [ext_resource type="AudioStream" uid="uid://dy1gv2v0s6g4m" path="res://Sesler/nam nam.ogg" id="7_272bh"]
 [ext_resource type="AudioStream" uid="uid://y46q6gieiawc" path="res://Sesler/sert.ogg" id="8_kek77"]
+[ext_resource type="PackedScene" uid="uid://dwfhu5pawdwox" path="res://Sahneler/su.tscn" id="8_ycdy4"]
 [ext_resource type="AudioStream" uid="uid://bv8r3fs3kxfxf" path="res://Sesler/hmm.ogg" id="9_4c57u"]
 [ext_resource type="Texture2D" uid="uid://bydgv0e8x1tha" path="res://Modeller/MOTW_312_Brick_Wall_Albedo_4k.png" id="12_dg77c"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_7dm0k"]
 radius = 0.1
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ycdy4"]
+albedo_texture = ExtResource("3_dg77c")
+
 [sub_resource type="CylinderMesh" id="CylinderMesh_ig7tw"]
+material = SubResource("StandardMaterial3D_ycdy4")
 top_radius = 0.065
 bottom_radius = 0.08
 
@@ -86,7 +92,28 @@ transform = Transform3D(-1.2688329, 0, -1.10924894e-07, 0, 1.2688329, 0, 1.10924
 metadata/organ_adi = "Karaciger"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Organlar/KaracigerArea"]
-transform = Transform3D(1.8979821, -1.9058241e-21, -5.684342e-14, 0, 1.1498023, 0, 1.2789769e-13, 2.8184946e-08, 1.4990581, -0.13164774, 0.6673753, -0.017816557)
+transform = Transform3D(1.8418041, -0.15768231, -3.8790375e-09, 0.4583599, 0.6336069, 3.164881e-08, -4.911115e-09, 2.2202302e-09, 1.4990582, -0.13164774, 0.7054591, -0.017816551)
+shape = SubResource("SphereShape3D_lquwl")
+
+[node name="Safra" type="Area3D" parent="Organlar" groups=["Organ"]]
+metadata/organ_adi = "Safra"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Organlar/Safra"]
+transform = Transform3D(1.1190393, -0.09128276, -3.8790375e-09, 0.2784893, 0.36679694, 3.164881e-08, -2.9838532e-09, 1.2852972e-09, 1.4990582, -0.12584564, 0.55164385, -0.023532301)
+shape = SubResource("SphereShape3D_lquwl")
+
+[node name="YemekBorusu" type="Area3D" parent="Organlar" groups=["Organ"]]
+metadata/organ_adi = "YemekBorusu"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Organlar/YemekBorusu"]
+transform = Transform3D(0.33251885, -1.6093626e-20, -3.907985e-14, 0, 4.094801, 0, 1.9539925e-14, 1.00375296e-07, 0.4388371, 0.288719, 0.3189522, -0.017816503)
+shape = SubResource("SphereShape3D_lquwl")
+
+[node name="Yutak" type="Area3D" parent="Organlar" groups=["Organ"]]
+metadata/organ_adi = "Yutak"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Organlar/Yutak"]
+transform = Transform3D(0.5674945, -2.5410988e-21, -6.3948846e-14, 0, 0.97798187, 0, 3.907985e-14, 2.3973136e-08, 0.95708376, 0.21306063, 0.9765198, -0.017816525)
 shape = SubResource("SphereShape3D_lquwl")
 
 [node name="MideArea" type="Area3D" parent="Organlar" groups=["Organ"]]
@@ -151,6 +178,9 @@ transform = Transform3D(0.6696233, 0.7427009, 0, -0.39157984, 0.3530506, -0.8497
 [node name="Yag" parent="Besinler" instance=ExtResource("6_ycdy4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4700543, 2.554924, -0.36308265)
 
+[node name="Su" parent="Besinler" groups=["Besin", "Besinn"] instance=ExtResource("8_ycdy4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.925, 2.662, -0.02578628)
+
 [node name="YagSesi" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("7_4c57u")
 
@@ -180,13 +210,16 @@ theme_override_constants/shadow_offset_x = 1
 theme_override_font_sizes/font_size = 32
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(51.063198, 0, 0, 0, -1.5218087e-06, 3.8539438, 0, -34.814926, -1.6846124e-07, 0, 0, 23.64692)
+transform = Transform3D(-51.063198, -1.3304073e-13, 3.3692248e-07, -4.4640865e-06, 1.5218085e-06, -3.8539438, 0, -34.814926, -1.6846123e-07, 0, -11.7105665, 23.64692)
 mesh = SubResource("PlaneMesh_4c57u")
 
 [node name="RespawnPoints" type="Node3D" parent="."]
 
 [node name="YagPoint" type="Node3D" parent="RespawnPoints"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5381111, 2.6620603, 0)
+
+[node name="SuPoint" type="Node3D" parent="RespawnPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9251684, 2.6620603, -0.13092697)
 
 [node name="ProteinPoint" type="Node3D" parent="RespawnPoints"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.2926257, 2.1509464, 0)
