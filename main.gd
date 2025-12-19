@@ -65,16 +65,16 @@ var label_pozisyonlari = {
 
 var organ_aciklamalari = {
 	"Agiz": {
-		BesinTipi.YOK: "Sindirimin başladığı yerdir\nBesinlerin hepsi burada mekanik olarak parçalanır\nTükürük bezlerinden tükürük salgılayarak sindirime\nyardımcı olur.",
-		BesinTipi.YAG: "AĞIZ\n\nYağlar ağızda kimyasal olarak SİNDİRİLMEZ.\nSadece çiğneme ile MEKANİK parçalanma olur.\n\nÇalışma Durumu: ❌ Kimyasal Yağ sindirimi yok",
-		BesinTipi.PROTEIN: "AĞIZ\n\nProteinler ağızda kimyasal olarak SİNDİRİLMEZ.\nSadece çiğneme ile mekanik parçalanma olur.\n\nÇalışma Durumu: ❌ Kimyasal Protein sindirimi yok",
+		BesinTipi.YOK: "Sindirimin başladığı yerdir\nBesinlerin hepsi burada mekanik olarak parçalanır\nTükürük bezlerinden tükürük salgılayarak sindirime\nyardımcı olur.\nTükürük bezlerinin salgıladığı amilaz enzimi\nile karbonhidratların kimyasal sindirimi de burada başlar",
+		BesinTipi.YAG: "AĞIZ\n\nYağlar ağızda SİNDİRİLMEZ.\n\nÇalışma Durumu: ❌ Yağ sindirimi yok",
+		BesinTipi.PROTEIN: "AĞIZ\n\nProteinler ağızda kimyasal olarak SİNDİRİLMEZ.\nSadece çiğneme olur.\n\nÇalışma Durumu: ❌ Protein sindirimi yok",
 		BesinTipi.KARBONHIDRAT: "AĞIZ\n\nKarbonhidratlar ağızda SİNDİRİLİR!\nTükürükteki AMİLAZ enzimi nişastayı parçalar.\n\nÇalışma Durumu: ✅ Aktif olarak sindirim yapıyor"
 	},
 	"Mide": {
 		BesinTipi.YOK: "Geçici bir depo görevi görür.\nMİDE ÖZSUYU denilen sindirim sıvısını üretir.\nHem mekanik hem de kimyasal sindirim yapabilir.",
-		BesinTipi.YAG: "MİDE\n\nYağlar midede kısmen sindirilebilir.\nMide lipazı az miktarda yağ sindirimi yapar.\n\nÇalışma Durumu: 🟡 Sınırlı sindirim",
+		BesinTipi.YAG: "MİDE\n\nYağlar midede SİNDİRİLMEZ.\n\nÇalışma Durumu: ❌ Sindirim Yok",
 		BesinTipi.PROTEIN: "MİDE\n\nProteinler midede SİNDİRİLİR!\nPEPSİN enzimi ve HCl asit proteinleri parçalar.\n\nÇalışma Durumu: ✅ Aktif olarak sindirim yapıyor",
-		BesinTipi.KARBONHIDRAT: "MİDE\n\nKarbonhidratlar midede çok az sindirilir.\nAsit ortam amilaz aktivitesini durdurur.\n\nÇalışma Durumu: ❌ Sindirim durmuş"
+		BesinTipi.KARBONHIDRAT: "MİDE\n\nKarbonhidratlar midede kimyasal olarak sindirilmez!.\nAsit ortam amilaz aktivitesini durdurur.\n\nÇalışma Durumu: ❌ Sindirim durmuş"
 	},
 	"OnIki_Parmak": {
 		BesinTipi.YOK: "",
@@ -85,7 +85,7 @@ var organ_aciklamalari = {
 	"Ince_Bagirsak": {
 		BesinTipi.YOK: "Sindirim tamamlandığı organdır.\nBesinler ve diğer moleküller burada kana karışır.",
 		BesinTipi.YAG: "İNCE BAĞIRSAK\n\nYağlar ince bağırsakta TAM SİNDİRİLİR!\nSafra yağları emülsifiye eder, LIPAZ parçalar.\n\nÇalışma Durumu: ✅ Aktif olarak sindirim yapıyor",
-		BesinTipi.PROTEIN: "İNCE BAĞIRSAK\n\nProteinler ince bağırsakta TAM SİNDİRİLİR!\nTRIPSİN ve PEPTİDAZ enzimleri amino asitlere ayırır.\n\nÇalışma Durumu: ✅ Aktif olarak sindirim yapıyor",
+		BesinTipi.PROTEIN: "İNCE BAĞIRSAK\n\nProteinler ince bağırsakta TAM SİNDİRİLİR!\nTRİPSİN ve PEPTİDAZ enzimleri amino asitlere ayırır.\n\nÇalışma Durumu: ✅ Aktif olarak sindirim yapıyor",
 		BesinTipi.KARBONHIDRAT: "İNCE BAĞIRSAK\n\nKarbonhidratlar ince bağırsakta TAM SİNDİRİLİR!\nPANKREAS AMİLAZI basit şekerlere ayırır.\n\nÇalışma Durumu: ✅ Aktif olarak sindirim yapıyor"
 	},
 	"Kalin_Bagirsak": {
@@ -113,13 +113,13 @@ var organ_aciklamalari = {
 		BesinTipi.KARBONHIDRAT: "Karbonhidratlar ağızda tükürük amilazı ile\nkısmen parçalanır.\nİnce bağırsakta pankreasın salgıladığı amilaz\nkarbonhidratları basit şekerlere dönüştürür.\n\nVücut durumu: ✅ Karbonhidrat sindirimi gerçekleşiyor.",
 		},
 	"Yutak": {
-		BesinTipi.YOK: "YUTAK\n\nBesini yutarken gırtlak kapağı soluk borusunu\nkapatır ve bu sayede boğulmamızı ENGELLER\n\nSindirim sistemindeki önemli bir parçadır.",
-		BesinTipi.YAG: "YUTAK\n\nBesini yutarken gırtlak kapağı soluk borusunu\nkapatır ve bu sayede boğulmamızı ENGELLER\n\nSindirim sistemindeki önemli bir parçadır.",
-		BesinTipi.PROTEIN: "YUTAK\n\nBesini yutarken gırtlak kapağı soluk borusunu\nkapatır ve bu sayede boğulmamızı ENGELLER\n\nnSindirim sistemindeki önemli bir parçadır.",
-		BesinTipi.KARBONHIDRAT: "YUTAK\n\nBesini yutarken gırtlak kapağı soluk borusunu\nkapatır ve bu sayede boğulmamızı ENGELLER\n\nnSindirim sistemindeki önemli bir parçadır."
+		BesinTipi.YOK: "YUTAK\n\nBesini yutarken gırtlak kapağı soluk borusunu\nkapatır ve bu sayede boğulmamızı ENGELLER\n\n🌟Sindirim sistemindeki önemli bir parçadır.",
+		BesinTipi.YAG: "YUTAK\n\nBesini yutarken gırtlak kapağı soluk borusunu\nkapatır ve bu sayede boğulmamızı ENGELLER\n\n🌟Sindirim sistemindeki önemli bir parçadır.",
+		BesinTipi.PROTEIN: "YUTAK\n\nBesini yutarken gırtlak kapağı soluk borusunu\nkapatır ve bu sayede boğulmamızı ENGELLER\n\n🌟Sindirim sistemindeki önemli bir parçadır.",
+		BesinTipi.KARBONHIDRAT: "YUTAK\n\nBesini yutarken gırtlak kapağı soluk borusunu\nkapatır ve bu sayede boğulmamızı ENGELLER\n\n🌟Sindirim sistemindeki önemli bir parçadır."
 	},
 	"YemekBorusu": {
-		BesinTipi.YOK: "Yemek borusu, besinleri Peristaltik hareketlerle\nmideye iletmekle görevlidir\nSindirim YAPMAZ!",
+		BesinTipi.YOK: "Yemek borusu, besinleri Peristaltik hareketlerle\nmideye iletmekle görevlidir\nPeristaltik hareketler sayesinde\nbesin yer çekimine zıt olsa\nbile mideye iletilir.\nSindirim YAPMAZ!",
 		BesinTipi.YAG: "YEMEK BORUSU\n\nPerostatik hareketler yaparak besinleri mideye indirir\nMukuslu yapısı sayesinde KAYGANDIR\n\nÇalışma Durumu: ✅ Geçit görevinde!",
 		BesinTipi.PROTEIN: "YEMEK BORUSU\n\nPerostatik hareketler yaparak besinleri mideye indirir\nMukuslu yapısı sayesinde KAYGANDIR\n\nÇalışma Durumu: ✅ Geçit görevinde!",
 		BesinTipi.KARBONHIDRAT: "YEMEK BORUSU\n\nPerostatik hareketler yaparak besinleri mideye indirir\nMukuslu yapısı sayesinde KAYGANDIR\n\nÇalışma Durumu: ✅ Geçit görevinde!"
